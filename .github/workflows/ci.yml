@@ -1,3 +1,4 @@
+
 name: CI
 
 on:
@@ -35,6 +36,20 @@ jobs:
         with:
           php-version: '8.2'
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom
+          coverage: xdebug
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
+
+      - name: Run tests with coverage
+        env:
+          DATABASE_URL: mysql://symfony:symfony@127.0.0.1:3306/symfony_test
+          XDEBUG_MODE: coverage
+        run: |
+          php bin/phpunit --coverage-text --coverage-clover=coverage.xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: true
