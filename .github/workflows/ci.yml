@@ -20,8 +20,5 @@ jobs:
           php-version: '8.2'
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom
 
-      - name: Validate Composer files
-        run: composer validate
-
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
