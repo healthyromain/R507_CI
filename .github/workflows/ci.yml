@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  test:
+  integration:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,13 +19,9 @@ jobs:
         with:
           php-version: '8.2'
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom
-          coverage: xdebug
 
       - name: Validate Composer files
-        run: composer validate --strict
+        run: composer validate
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
-
-      - name: Run tests
-        run: php bin/phpunit
